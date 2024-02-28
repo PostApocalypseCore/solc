@@ -1,4 +1,4 @@
-module github.com/lmittmann/go-solc
+module github.com/PostApocalypseCore/solc
 
 go 1.21
 

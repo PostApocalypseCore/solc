@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/PostApocalypseCore/solc/internal/console"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/lmittmann/go-solc/internal/console"
 )
 
 // NewConsole returns a [vm.EVMLogger] that logs calls of console.sol to the

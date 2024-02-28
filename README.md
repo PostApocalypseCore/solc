@@ -39,6 +39,8 @@ workspace/
 └── go.sum
 ```
 
+## generate *.sol and compile it at runtime 
+
 > [!WARNING]
 >
 > This package is pre-1.0. There might be breaking changes between minor versions.

@@ -12,8 +12,8 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/lmittmann/go-solc/internal/console"
-	"github.com/lmittmann/go-solc/internal/mod"
+	"github.com/PostApocalypseCore/solc/internal/console"
+	"github.com/PostApocalypseCore/solc/internal/mod"
 	"golang.org/x/sync/singleflight"
 )
 
@@ -77,6 +77,7 @@ func (c *Compiler) Compile(dir, contract string, opts ...Option) (*Contract, err
 	var con *Contract
 	for _, conMap := range out.Contracts {
 		for conName, c := range conMap {
+			fmt.Printf("%+v, %+v\n", conName, c)
 			if conName == contract {
 				con = &Contract{
 					Code:       c.EVM.DeployedBytecode.Object,
