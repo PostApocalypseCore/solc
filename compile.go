@@ -2,9 +2,7 @@ package solc
 
 import (
 	"bytes"
-	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"os/exec"
 )
 
@@ -66,21 +64,21 @@ func (c *Compiler) CompileSingleFile(in *Input) (*Output, error) {
 	return output, nil
 }
 
-func GetContract(result map[string]map[string]contract) {
-	// find contract code
+func GetContract(result map[string]map[string]contract, contractName string) (*Contract, bool) {
+	var res *Contract
+	var found bool
 	for _, conMap := range result {
 		for conName, c := range conMap {
 			//fmt.Printf("%+v, %+v\n", conName, c)
-
-			if conName == "Token" {
+			if conName == contractName {
 				con := &Contract{
 					Code:       c.EVM.DeployedBytecode.Object,
 					DeployCode: c.EVM.Bytecode.Object,
 				}
-				fmt.Println("Code: ", hex.EncodeToString(con.Code))
-				fmt.Println("DeployByteCode: ", hex.EncodeToString(con.DeployCode))
-				break
+				res = con 
+				return res, true 
 			}
 		}
 	}
+	return nil, found
 }
