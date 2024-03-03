@@ -11,6 +11,7 @@ import (
 type Contract struct {
 	Code       []byte // The bytecode of the contract after deployment.
 	DeployCode []byte // The bytecode to deploy the contract.
+	Metadata   string
 }
 
 // lang represents the language of the source code.

@@ -69,14 +69,14 @@ func GetContract(result map[string]map[string]contract, contractName string) (*C
 	var found bool
 	for _, conMap := range result {
 		for conName, c := range conMap {
-			//fmt.Printf("%+v, %+v\n", conName, c)
 			if conName == contractName {
 				con := &Contract{
 					Code:       c.EVM.DeployedBytecode.Object,
 					DeployCode: c.EVM.Bytecode.Object,
+					Metadata:   c.Metadata,
 				}
-				res = con 
-				return res, true 
+				res = con
+				return res, true
 			}
 		}
 	}

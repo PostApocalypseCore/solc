@@ -8,7 +8,7 @@ var (
 	defaultViaIR                    = false
 	defaultOutputSelection          = map[string]map[string][]string{
 		"*": {
-			"*": {"evm.bytecode.object", "evm.deployedBytecode.object"},
+			"*": {"evm.bytecode.object", "evm.deployedBytecode.object", "metadata"},
 		},
 	}
 	defaultEVMVersions = map[string]EVMVersion{

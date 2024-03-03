@@ -1,10 +1,10 @@
 package solc_test
 
 import (
+	"encoding/hex"
 	"fmt"
 	"github.com/PostApocalypseCore/solc"
 	"testing"
-    "encoding/hex"
 )
 
 var tmpl = `
@@ -385,17 +385,17 @@ func TestCompiler_CompileSingleFile(t *testing.T) {
 		Settings: c.BuildSettings(nil),
 	})
 	if err != nil {
-		fmt.Println("err: ", err)
+		t.Fatal("err: ", err)
+	} else {
+		fmt.Printf("%+v\n", o.Contracts)
 	}
 
 	cnt, found := solc.GetContract(o.Contracts, "Token")
-    if found { 
-        fmt.Println("Code: ", hex.EncodeToString(cnt.Code))
-        fmt.Println("DeployByteCode: ", hex.EncodeToString(cnt.DeployCode))
-    } else {
-        fmt.Println("nofound")
-
-    }
-
-	// fmt.Printf("%+v\n", o)
+	if found {
+		fmt.Println("Code: ", hex.EncodeToString(cnt.Code))
+		fmt.Println("DeployByteCode: ", hex.EncodeToString(cnt.DeployCode))
+		fmt.Println("metadata: ", cnt.Metadata)
+	} else {
+		t.Fatal("no found")
+	}
 }
