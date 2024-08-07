@@ -14,6 +14,7 @@ import (
 
 	"github.com/PostApocalypseCore/solc/internal/console"
 	"github.com/PostApocalypseCore/solc/internal/mod"
+	"github.com/pkg/errors"
 	"golang.org/x/sync/singleflight"
 )
 
@@ -42,23 +43,32 @@ type Compiler struct {
 	err         error  // initialization error
 }
 
-func New(version string) *Compiler {
-	return &Compiler{
+func New(version string) (*Compiler, error) {
+	if mod.Root == "" {
+		return nil, errors.New("solc path is not configured")
+	}
+
+	c := &Compiler{
 		version: version,
 	}
-}
 
-// init initializes the compiler.
-func (c *Compiler) init() {
-	// check mod root is set
-	if mod.Root == "" {
-		c.err = fmt.Errorf("solc: no go.mod detected")
-		return
+	// check or download immediately when initializing the compiler, fail fast
+	c.solcAbsPath, c.err = checkSolc(c.version)
+	if c.err != nil {
+		return nil, errors.Wrap(c.err, "fail to ensure solc")
 	}
 
-	// check or download solc version
-	c.solcAbsPath, c.err = checkSolc(c.version)
+	return c, nil 
 }
+
+func MustNew(version string) *Compiler {
+	c, err := New(version)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
 
 // Compile all contracts in the given directory and return the contract code of
 // the contract with the given name.
@@ -104,12 +114,6 @@ func (c *Compiler) MustCompile(dir, contract string, opts ...Option) *Contract {
 
 // compile
 func (c *Compiler) compile(baseDir, contract string, opts []Option) (*output, error) {
-	// init an return on error
-	c.once.Do(c.init)
-	if c.err != nil {
-		return nil, c.err
-	}
-
 	// check the directory exists
 	if stat, err := os.Stat(baseDir); err != nil || !stat.IsDir() {
 		return nil, err

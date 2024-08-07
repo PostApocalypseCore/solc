@@ -33,12 +33,6 @@ func (c *Compiler) BuildSettings(opts []Option) *Settings {
 }
 
 func (c *Compiler) CompileSingleFile(in *Input) (*Output, error) {
-	// init and return on error
-	c.once.Do(c.init)
-	if c.err != nil {
-		return nil, c.err
-	}
-
 	inputBuf := bytes.NewBuffer(nil)
 	outputBuf := bytes.NewBuffer(nil)
 

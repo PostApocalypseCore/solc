@@ -374,7 +374,7 @@ contract Token is Context, IERC20, Ownable {
 `
 
 func TestCompiler_CompileSingleFile(t *testing.T) {
-	c := solc.New("0.8.22")
+	c := solc.MustNew("0.8.22")
 	o, err := c.CompileSingleFile(&solc.Input{
 		Lang: "Solidity",
 		Sources: map[string]solc.Src{"filename": {

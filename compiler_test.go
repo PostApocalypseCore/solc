@@ -11,7 +11,7 @@ import (
 )
 
 func TestCompile(t *testing.T) {
-	c := solc.New("0.8.22")
+	c := solc.MustNew("0.8.22")
 
 	tests := []struct {
 		Name         string
